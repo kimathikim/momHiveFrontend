@@ -52,7 +52,7 @@ class MessagesPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NewConversationPage(),
+              builder: (context) => const NewConversationPage(),
             ),
           );
         },
