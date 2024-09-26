@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-
-class MessageDetailPage extends StatelessWidget {
-  final String contactName;
-
-  const MessageDetailPage({super.key, required this.contactName});
-
-  @override
-=======
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -203,7 +193,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   // }
   //
   @override
->>>>>>> 58e33d3 (Add eventlet)
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -211,20 +200,11 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
           children: [
             CircleAvatar(
               backgroundColor: Colors.grey[300],
-<<<<<<< HEAD
-              backgroundImage: const AssetImage(
-                  'assets/avatar_placeholder.png'), // Use actual contact's avatar here
-            ),
-            const SizedBox(width: 10),
-            Text(
-              contactName,
-=======
               backgroundImage: const AssetImage('assets/momhive_logo.png'),
             ),
             const SizedBox(width: 10),
             Text(
               widget.contactName,
->>>>>>> 58e33d3 (Add eventlet)
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
@@ -234,17 +214,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
           ],
         ),
         backgroundColor: Colors.yellow[700],
-<<<<<<< HEAD
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
-            onPressed: () {
-              // Implement more options here
-            },
-          ),
-        ],
-=======
->>>>>>> 58e33d3 (Add eventlet)
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -256,18 +225,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
         children: [
           Expanded(
             child: ListView.builder(
-<<<<<<< HEAD
-              itemCount:
-                  10, // This should be the number of messages in the conversation
-              itemBuilder: (context, index) {
-                // Replace this with the actual message data and logic to alternate between sender and receiver
-                bool isSentByUser = index % 2 == 0;
-
-                return Align(
-                  alignment: isSentByUser
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-=======
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
@@ -276,17 +233,12 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                   alignment: isSentByUser
                       ? Alignment.centerLeft
                       : Alignment.centerRight,
->>>>>>> 58e33d3 (Add eventlet)
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 14, vertical: 10),
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     decoration: BoxDecoration(
-<<<<<<< HEAD
-                      color: isSentByUser ? Colors.yellow[100] : Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-=======
                       color: isSentByUser ? Colors.green[50] : Colors.white,
                       borderRadius: isSentByUser
                           ? const BorderRadius.only(
@@ -297,7 +249,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                               topRight: Radius.circular(15),
                               bottomLeft: Radius.circular(15),
                               bottomRight: Radius.circular(15)),
->>>>>>> 58e33d3 (Add eventlet)
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
@@ -306,13 +257,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                         ),
                       ],
                     ),
-<<<<<<< HEAD
-                    child: const Text(
-                      'This is a messagejijijijijijijijijijijijijijijijijfffffffffffffffffffffffffffffffffffffffffffffffffffff jiji jijij ji j ji',
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-=======
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -332,7 +276,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                           ),
                         ),
                       ],
->>>>>>> 58e33d3 (Add eventlet)
                     ),
                   ),
                 );
@@ -352,14 +295,9 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                 ),
                 Expanded(
                   child: TextField(
-<<<<<<< HEAD
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-=======
                     controller: _messageController,
                     decoration: InputDecoration(
                       hintText: 'Message...',
->>>>>>> 58e33d3 (Add eventlet)
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,
@@ -367,36 +305,14 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                       filled: true,
                       fillColor: Colors.grey[200],
                       contentPadding: const EdgeInsets.symmetric(
-<<<<<<< HEAD
-                          horizontal: 20, vertical: 5),
-=======
                           horizontal: 20, vertical: 10),
->>>>>>> 58e33d3 (Add eventlet)
                     ),
                   ),
                 ),
                 IconButton(
-<<<<<<< HEAD
-                  icon: Icon(Icons.attach_file, color: Colors.grey[600]),
-                  onPressed: () {
-                    // Implement file attachment functionality
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.camera_alt, color: Colors.grey[600]),
-                  onPressed: () {
-                    // Implement camera functionality
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.send, color: Colors.yellow[700]),
-                  onPressed: () {
-                    // Implement sending message functionality
-=======
                   icon: Icon(Icons.send, color: Colors.green[600]),
                   onPressed: () {
                     _sendMessage(_messageController.text);
->>>>>>> 58e33d3 (Add eventlet)
                   },
                 ),
               ],

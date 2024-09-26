@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 class SettingsPage extends StatelessWidget {
   final bool fromBottomNavBar;
 
-<<<<<<< HEAD
-  const SettingsPage({Key? key, this.fromBottomNavBar = false})
-      : super(key: key);
-=======
   const SettingsPage({super.key, this.fromBottomNavBar = false});
->>>>>>> 58e33d3 (Add eventlet)
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +25,7 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Account Settings'),
-<<<<<<< HEAD
-            onTap: () {
-              // Navigate to Account Settings
-            },
-=======
             onTap: () {},
->>>>>>> 58e33d3 (Add eventlet)
           ),
           ListTile(
             leading: const Icon(Icons.notifications),

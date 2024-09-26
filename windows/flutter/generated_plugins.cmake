@@ -3,10 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-<<<<<<< HEAD
-=======
   flutter_secure_storage_windows
->>>>>>> 58e33d3 (Add eventlet)
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'new_conversation_page.dart';
->>>>>>> 58e33d3 (Add eventlet)
 import "message_detail.dart";
 
 class MessagesPage extends StatelessWidget {
@@ -51,13 +48,6 @@ class MessagesPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-<<<<<<< HEAD
-          onPressed: () {
-            // Navigate to new conversation screen
-          },
-          backgroundColor: const Color(0xFFF55200),
-          child: const Icon(Icons.add, color: Colors.white)),
-=======
         onPressed: () {
           Navigator.push(
             context,
@@ -69,7 +59,6 @@ class MessagesPage extends StatelessWidget {
         backgroundColor: const Color(0xFFF55200),
         child: const Icon(Icons.add, color: Colors.white),
       ),
->>>>>>> 58e33d3 (Add eventlet)
     );
   }
 }
@@ -119,11 +108,7 @@ class MessageCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-<<<<<<< HEAD
-                          MessageDetailPage(contactName: sender)),
-=======
                           MessageDetailPage(contactName: sender, userId: '1')),
->>>>>>> 58e33d3 (Add eventlet)
                 );
               },
             )));

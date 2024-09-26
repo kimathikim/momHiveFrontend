@@ -2,25 +2,9 @@ import 'package:flutter/material.dart';
 import 'profile_page.dart';
 import 'home_page.dart';
 
-<<<<<<< HEAD
-class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: AccountSettingsPage(),
-    );
-  }
-}
-
-class AccountSettingsPage extends StatelessWidget {
-  const AccountSettingsPage({super.key});
-=======
 class AccountSettingsPage extends StatelessWidget {
   final bool fromBottomNavBar;
   const AccountSettingsPage({super.key, this.fromBottomNavBar = true});
->>>>>>> 58e33d3 (Add eventlet)
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +13,7 @@ class AccountSettingsPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-<<<<<<< HEAD
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-=======
             Navigator.pop(context);
->>>>>>> 58e33d3 (Add eventlet)
           },
         ),
         title: const Text('Account Settings'),

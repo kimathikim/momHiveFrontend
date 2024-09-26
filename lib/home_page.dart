@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'setting.dart';
-=======
 import 'setting_page.dart';
->>>>>>> 58e33d3 (Add eventlet)
 import 'mentorship.dart';
 import 'groups.dart';
 import 'resources.dart';
 import 'event.dart';
-<<<<<<< HEAD
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-=======
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -78,7 +67,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
->>>>>>> 58e33d3 (Add eventlet)
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'MomHive',
@@ -136,17 +124,6 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.settings),
                     onPressed: () {
                       Navigator.push(
-<<<<<<< HEAD
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const SettingsPage(fromBottomNavBar: true)),
-                      );
-                    },
-                  ),
-                ],
-                elevation: 0, // Remove AppBar shadow
-=======
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
@@ -155,7 +132,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
                 elevation: 0,
->>>>>>> 58e33d3 (Add eventlet)
               ),
             ),
           ),
@@ -226,12 +202,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-<<<<<<< HEAD
-                                builder: (context) =>
-                                    const EventsPage(fromBottomNavBar: true)),
-=======
                                 builder: (context) => const EventsPage()),
->>>>>>> 58e33d3 (Add eventlet)
                           );
                         },
                       ),
@@ -243,16 +214,6 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 10),
-<<<<<<< HEAD
-                  const EventCard(
-                    eventTitle: "Mom's Night Out",
-                    eventTime: 'Friday, 5 PM',
-                  ),
-                  const EventCard(
-                    eventTitle: "Breastfeeding Workshop",
-                    eventTime: 'Saturday, 10 AM at Local Library',
-                  ),
-=======
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : Column(
@@ -267,7 +228,6 @@ class _HomePageState extends State<HomePage> {
                                 )),
                           ],
                         ),
->>>>>>> 58e33d3 (Add eventlet)
                   const SizedBox(height: 10),
                   Center(
                     child: ElevatedButton(
@@ -390,18 +350,11 @@ class EventCard extends StatelessWidget {
                 Text(
                   eventTitle,
                   style: const TextStyle(
-<<<<<<< HEAD
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-=======
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 4),
->>>>>>> 58e33d3 (Add eventlet)
                 Text(
                   eventTime,
                   style: TextStyle(

@@ -40,8 +40,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 MaterialPageRoute(builder: (context) => const HomePage()));
             break;
           case 1:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const GroupsPage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => GroupsPage()));
             break;
           case 2:
             Navigator.pushNamed(context, '/events');

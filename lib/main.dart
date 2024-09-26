@@ -53,10 +53,7 @@ class MomHiveApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/main': (context) => const MainScreen(),
-<<<<<<< HEAD
-=======
         '/login': (context) => const LoginPage(),
->>>>>>> 58e33d3 (Add eventlet)
       },
     );
   }

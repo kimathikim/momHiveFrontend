@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-
-class EventsPage extends StatelessWidget {
-=======
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class EventsPage extends StatefulWidget {
->>>>>>> 58e33d3 (Add eventlet)
   final bool fromBottomNavBar;
 
   const EventsPage({super.key, this.fromBottomNavBar = true});
 
   @override
-<<<<<<< HEAD
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upcoming Events'),
-        leading: fromBottomNavBar
-=======
   _EventsPageState createState() => _EventsPageState();
 }
 
@@ -72,7 +60,6 @@ class _EventsPageState extends State<EventsPage>
       appBar: AppBar(
         title: const Text('Events'),
         leading: widget.fromBottomNavBar
->>>>>>> 58e33d3 (Add eventlet)
             ? null
             : IconButton(
                 icon: const Icon(Icons.arrow_back),
@@ -82,20 +69,6 @@ class _EventsPageState extends State<EventsPage>
               ),
         backgroundColor: Colors.yellow[600],
         elevation: 0,
-<<<<<<< HEAD
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: const <Widget>[
-          EventCard(
-              eventName: 'Online Parenting Webinar',
-              date: 'July 20, 2024',
-              location: 'Zoom'),
-          EventCard(
-              eventName: 'Local Mothers Meetup',
-              date: 'August 5, 2024',
-              location: 'Nakuru Park'),
-=======
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
@@ -121,7 +94,6 @@ class _EventsPageState extends State<EventsPage>
                     );
                   },
                 ),
->>>>>>> 58e33d3 (Add eventlet)
         ],
       ),
     );
@@ -133,20 +105,12 @@ class EventCard extends StatelessWidget {
   final String date;
   final String location;
 
-<<<<<<< HEAD
-  const EventCard(
-      {super.key,
-      required this.eventName,
-      required this.date,
-      required this.location});
-=======
   const EventCard({
     super.key,
     required this.eventName,
     required this.date,
     required this.location,
   });
->>>>>>> 58e33d3 (Add eventlet)
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +120,7 @@ class EventCard extends StatelessWidget {
         subtitle: Text('Date: $date\nLocation: $location'),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-<<<<<<< HEAD
-          // Navigate to event details
-=======
           // Handle event details or attend action
->>>>>>> 58e33d3 (Add eventlet)
         },
       ),
     );

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
->>>>>>> 58e33d3 (Add eventlet)
 
 class LibraryPage extends StatelessWidget {
   final bool fromBottomNavBar;
@@ -65,51 +62,11 @@ class LibraryPage extends StatelessWidget {
                   },
                 ),
         ),
-<<<<<<< HEAD
-        body: Column(
-          children: [
-            const CategoryTabs(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  ArticleCard(
-                    title: 'How to Handle Toddler Tantrums',
-                    author: 'Jane Doe',
-                    description:
-                        'Learn effective strategies to calm your toddler during tantrums...',
-                    onReadMore: () {
-                      // Handle read more action
-                    },
-                  ),
-                  ArticleCard(
-                    title: 'Healthy Meal Ideas for Busy Moms',
-                    author: 'John Smith',
-                    description:
-                        'Discover quick and nutritious meal ideas that fit into your busy schedule...',
-                    onReadMore: () {
-                      // Handle read more action
-                    },
-                  ),
-                  ArticleCard(
-                    title: 'Managing Stress as a New Parent',
-                    author: 'Emily Johnson',
-                    description:
-                        'Tips and advice on how to manage stress and find balance as a new parent...',
-                    onReadMore: () {
-                      // Handle read more action
-                    },
-                  ),
-                ],
-              ),
-            ),
-=======
         body: const Column(
           children: [
             Expanded(
                 child:
                     CategoryTabs()), // Moved Expanded to make tabs functional with content
->>>>>>> 58e33d3 (Add eventlet)
           ],
         ),
       ),
@@ -117,12 +74,6 @@ class LibraryPage extends StatelessWidget {
   }
 }
 
-<<<<<<< HEAD
-class CategoryTabs extends StatelessWidget {
-  const CategoryTabs({super.key});
-
-  @override
-=======
 class CategoryTabs extends StatefulWidget {
   const CategoryTabs({super.key});
 
@@ -192,7 +143,6 @@ class _CategoryTabsState extends State<CategoryTabs> {
   }
 
   @override
->>>>>>> 58e33d3 (Add eventlet)
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
@@ -207,15 +157,12 @@ class _CategoryTabsState extends State<CategoryTabs> {
                 color: const Color(0xFFF7C843),
                 borderRadius: BorderRadius.circular(20),
               ),
-<<<<<<< HEAD
-=======
               onTap: (index) {
                 setState(() {
                   currentTab = index;
                   fetchArticlesForTab(index);
                 });
               },
->>>>>>> 58e33d3 (Add eventlet)
               tabs: const [
                 Tab(text: 'Parenting Tips'),
                 Tab(text: 'Health & Wellness'),
@@ -223,8 +170,6 @@ class _CategoryTabsState extends State<CategoryTabs> {
               ],
             ),
           ),
-<<<<<<< HEAD
-=======
           Expanded(
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -244,7 +189,6 @@ class _CategoryTabsState extends State<CategoryTabs> {
                     },
                   ),
           ),
->>>>>>> 58e33d3 (Add eventlet)
         ],
       ),
     );

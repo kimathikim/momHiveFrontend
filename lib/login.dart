@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'signup.dart';
-=======
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,7 +15,6 @@ Future<void> saveToken(String token) async {
 Future<String?> getToken() async {
   return await storage.read(key: 'auth_token');
 }
->>>>>>> 58e33d3 (Add eventlet)
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,8 +25,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
-<<<<<<< HEAD
-=======
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -85,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
->>>>>>> 58e33d3 (Add eventlet)
 
   @override
   Widget build(BuildContext context) {
@@ -100,11 +93,7 @@ class _LoginPageState extends State<LoginPage> {
             // MomHive Logo (Placeholder for an actual image)
             Center(
               child: Image.asset(
-<<<<<<< HEAD
-                'assets/momhive_logo.png', // Replace with your actual logo asset
-=======
                 'assets/momhive_logo.png',
->>>>>>> 58e33d3 (Add eventlet)
                 height: 200,
               ),
             ),
@@ -120,10 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
             // Email Input Field
             TextField(
-<<<<<<< HEAD
-=======
               controller: _emailController,
->>>>>>> 58e33d3 (Add eventlet)
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 fillColor: const Color(0xFFFFFCE5),
@@ -133,24 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                   borderSide: BorderSide.none,
                 ),
                 hintText: 'Enter your email',
-<<<<<<< HEAD
-                hintStyle: const TextStyle(color: Colors.grey), // Add this line
-=======
                 hintStyle: const TextStyle(color: Colors.grey),
->>>>>>> 58e33d3 (Add eventlet)
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               ),
             ),
             const SizedBox(height: 20),
-<<<<<<< HEAD
-            TextField(
-=======
-
-            // Password Input Field
             TextField(
               controller: _passwordController,
->>>>>>> 58e33d3 (Add eventlet)
               obscureText: _obscurePassword,
               decoration: InputDecoration(
                 fillColor: const Color(0xFFFFFCE5),
@@ -180,17 +156,10 @@ class _LoginPageState extends State<LoginPage> {
 
             // Login Button
             ElevatedButton(
-<<<<<<< HEAD
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/main');
-              },
-              child: const Text('Login'),
-=======
               onPressed: _isLoading ? null : _handleLogin,
               child: _isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('Login'),
->>>>>>> 58e33d3 (Add eventlet)
             ),
 
             const SizedBox(height: 20),
@@ -214,17 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
-<<<<<<< HEAD
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const SignUpPage()), // Replace with your actual sign up page
-                    );
-=======
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SignUpPage()));
->>>>>>> 58e33d3 (Add eventlet)
                   },
                   child: const Text(
                     'Sign Up',
