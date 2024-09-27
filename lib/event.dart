@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'eventdetail.dart';
+import 'createEvent.dart';
 
 class EventsPage extends StatefulWidget {
   final bool fromBottomNavBar;
@@ -25,12 +27,13 @@ class _EventsPageState extends State<EventsPage>
     fetchExploreEvents();
   }
 
-  // get the token from the storage
+  // Get the token from the secure storage
   Future<String?> getToken() async {
     const storage = FlutterSecureStorage();
     return await storage.read(key: 'auth_token');
   }
 
+  // Fetch the list of events
   Future<void> fetchExploreEvents() async {
     final token = await getToken();
     setState(() {
@@ -76,24 +79,45 @@ class _EventsPageState extends State<EventsPage>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
+      body: Column(
         children: [
-          // Explore Events Tab
-          isLoadingExplore
-              ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: exploreEvents.length,
-                  itemBuilder: (context, index) {
-                    final event = exploreEvents[index];
-                    return EventCard(
-                      eventName: event['name'] ?? 'No name',
-                      date: event['date'] ?? 'No date',
-                      location: event['location'] ?? 'No location',
-                    );
-                  },
-                ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigate to create event page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateEventPage()),
+                );
+              },
+              child: const Text('Create Event'),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Explore Events Tab
+                isLoadingExplore
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16.0),
+                        itemCount: exploreEvents.length,
+                        itemBuilder: (context, index) {
+                          final event = exploreEvents[index];
+                          return EventCard(
+                            eventId: event['id'],
+                            eventName: event['name'] ?? 'No name',
+                            date: event['date'] ?? 'No date',
+                            location: event['location'] ?? 'No location',
+                          );
+                        },
+                      ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -101,12 +125,14 @@ class _EventsPageState extends State<EventsPage>
 }
 
 class EventCard extends StatelessWidget {
+  final String eventId;
   final String eventName;
   final String date;
   final String location;
 
   const EventCard({
     super.key,
+    required this.eventId,
     required this.eventName,
     required this.date,
     required this.location,
@@ -120,7 +146,13 @@ class EventCard extends StatelessWidget {
         subtitle: Text('Date: $date\nLocation: $location'),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Handle event details or attend action
+          // Navigate to event details page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EventDetailsPage(eventId: eventId),
+            ),
+          );
         },
       ),
     );

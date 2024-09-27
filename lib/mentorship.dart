@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:momhive/messages.dart';
+import 'message_detail.dart';
 import 'dart:convert';
 
 class MentoringPage extends StatelessWidget {
+  final storage = const FlutterSecureStorage();
   const MentoringPage({super.key});
 
   Future<List<Map<String, dynamic>>> fetchMentors() async {
+    final String? token = await storage.read(key: 'auth_token');
     final response = await http.get(
-      Uri.parse(
-          'https://your-api-url.com/mentors'), // Adjust the URL as necessary
+      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/mentors'),
       headers: {
-        'Authorization': 'Bearer your_jwt_token'
+        'Authorization': 'Bearer $token'
       }, // Add authentication if required
     );
 
@@ -22,14 +26,13 @@ class MentoringPage extends StatelessWidget {
   }
 
   Future<List<Map<String, dynamic>>> fetchMentees() async {
+    final String? token = await storage.read(key: 'auth_token');
     final response = await http.get(
-      Uri.parse(
-          'https://your-api-url.com/mentees'), // Adjust the URL as necessary
+      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/mentees'),
       headers: {
-        'Authorization': 'Bearer your_jwt_token'
+        'Authorization': 'Bearer $token'
       }, // Add authentication if required
     );
-
     if (response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(json.decode(response.body));
     } else {
@@ -74,38 +77,17 @@ class MentoringPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Mentors',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,
                     color: Colors.black87,
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                  ),
-                  onPressed: () {
-                    // Implement mentor request functionality
-                  },
-                  child: const Text(
-                    'Find a Mentor',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
                   ),
                 ),
               ],
@@ -161,21 +143,16 @@ class MentoringPage extends StatelessWidget {
                               color: Colors.black54,
                             ),
                           ),
-                          trailing: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow[700],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Implement mentor profile view or request functionality
-                            },
-                            child: const Text(
-                              'View Profile',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          onTap: () {
+                            // Navigate to the messaging page when a mentor is clicked
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MessageDetailPage(
+                                      contactName: mentor['name'],
+                                      userId: mentor['id'])),
+                            );
+                          },
                         ),
                       ),
                     );
@@ -184,38 +161,17 @@ class MentoringPage extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Mentees',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,
                     color: Colors.black87,
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                  ),
-                  onPressed: () {
-                    // Implement mentee request functionality
-                  },
-                  child: const Text(
-                    'Add Mentee',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
                   ),
                 ),
               ],
@@ -271,21 +227,16 @@ class MentoringPage extends StatelessWidget {
                               color: Colors.black54,
                             ),
                           ),
-                          trailing: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow[700],
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            onPressed: () {
-                              // Implement mentee profile view or mentoring functionality
-                            },
-                            child: const Text(
-                              'View Profile',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          onTap: () {
+                            // Navigate to the messaging page when a mentee is clicked
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MessageDetailPage(
+                                      contactName: mentee['name'] ?? "kim",
+                                      userId: mentee['id'] ?? "kimathi")),
+                            );
+                          },
                         ),
                       ),
                     );
