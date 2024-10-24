@@ -17,8 +17,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final _phoneNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
+
   Future<void> _handleSignUp() async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true; // Show loading indicator
+      });
+
       try {
         final response = await http.post(
           Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/signup'),
@@ -34,20 +40,24 @@ class _SignUpPageState extends State<SignUpPage> {
           }),
         );
 
+        setState(() {
+          _isLoading = false; // Stop loading indicator
+        });
+
         if (response.statusCode == 202) {
-          // Handle successful signup (Navigate to login or home screen)
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Sign up successful!')),
           );
-          // Navigate to login page
           Navigator.pushNamed(context, '/login');
         } else {
-          // Handle signup failure
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to sign up')),
           );
         }
       } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('An error occurred: $error')),
         );
@@ -58,34 +68,31 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFDD2C),
+      backgroundColor: Colors.yellow[600],
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Center(
-                child: Text(
-                  'Join the Hive',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-
               // MomHive Logo
               Center(
                 child: Image.asset(
                   'assets/momhive_logo.png',
-                  height: 150,
+                  height: 200,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+
+              Center(
+                child: Text(
+                  'Join the Hive',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+              const SizedBox(height: 20),
 
               // Last Name Input Field
               TextFormField(
@@ -94,13 +101,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: const Color(0xFFFFFCE5),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   hintText: 'Last Name',
                   hintStyle: const TextStyle(color: Colors.grey),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -109,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // First Name Input Field
               TextFormField(
@@ -118,13 +125,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: const Color(0xFFFFFCE5),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   hintText: 'First Name',
                   hintStyle: const TextStyle(color: Colors.grey),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -133,7 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // Phone Number Input Field
               TextFormField(
@@ -143,20 +150,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: const Color(0xFFFFFCE5),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
-                  prefixIcon: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      '+1 ',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                  ),
-                  hintText: '(999) 111-0000',
+                  hintText: '(071) 111-0000',
                   hintStyle: const TextStyle(color: Colors.grey),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // Email Input Field
               TextFormField(
@@ -175,13 +175,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: const Color(0xFFFFFCE5),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   hintText: 'Enter your email',
                   hintStyle: const TextStyle(color: Colors.grey),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -200,13 +200,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: const Color(0xFFFFFCE5),
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   hintText: 'Create a password',
                   hintStyle: const TextStyle(color: Colors.grey),
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
@@ -228,22 +228,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // Sign Up Button
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                ),
-                onPressed: _handleSignUp,
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                onPressed: _isLoading ? null : _handleSignUp,
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text('Sign Up'),
               ),
             ],
           ),
@@ -252,3 +244,4 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+

@@ -13,6 +13,7 @@ class MomHiveApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MomHive',
+      debugShowCheckedModeBanner: false, // Disable the debug banner
       theme: ThemeData(
         primaryColor: const Color(0xFFF7C843),
         scaffoldBackgroundColor: Colors.white,

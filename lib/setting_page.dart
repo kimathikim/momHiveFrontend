@@ -27,13 +27,12 @@ class AccountSettingsPage extends StatelessWidget {
             title: 'Profile',
             onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyApp(),
+                  ));
             },
           ),
-
-          // Navigate to Profile settings page
           SettingsCard(
             icon: Icons.lock,
             title: 'Change Password',
