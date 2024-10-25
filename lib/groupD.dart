@@ -33,7 +33,7 @@ Future<void> _fetchGroupMembers() async {
 
   final response = await http.get(
     Uri.parse(
-        'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/${widget.groupId}/memebers'),
+        'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/${widget.groupId}/mem'),
             
     headers: {
       'Authorization': 'Bearer $token',
