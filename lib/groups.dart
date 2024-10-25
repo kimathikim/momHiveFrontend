@@ -57,6 +57,42 @@ class _GroupsPageState extends State<GroupsPage>
     }
   }
 
+  Future<void> _leaveGroup(String groupId) async {
+    String? token = await _storage.read(key: 'auth_token');
+    if (token == null) return;
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+            'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/leave/$groupId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      final SnackBar snackBar;
+      if (response.statusCode == 200) {
+        _fetchGroups(); // Refresh the group list after leaving
+        snackBar = const SnackBar(
+          content: Text('Successfully left the group'),
+          backgroundColor: Colors.green,
+        );
+      } else {
+        snackBar = SnackBar(
+          content: Text('Failed to leave group: ${response.body}'),
+          backgroundColor: Colors.red,
+        );
+      }
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (error) {
+      final snackBar = SnackBar(
+        content: Text('Error leaving group: $error'),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   Future<void> _createGroup(String name, String description) async {
     String? token = await _storage.read(key: 'auth_token');
     if (token == null) return;
@@ -133,46 +169,45 @@ class _GroupsPageState extends State<GroupsPage>
         String groupDescription = '';
 
         return AlertDialog(
-          title: const Text('Create New Group'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Group Name',
+            title: const Text('Create New Group'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Group Name',
+                  ),
+                  onChanged: (value) {
+                    groupName = value;
+                  },
                 ),
-                onChanged: (value) {
-                  groupName = value;
-                },
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                  ),
+                  onChanged: (value) {
+                    groupDescription = value;
+                  },
                 ),
-                onChanged: (value) {
-                  groupDescription = value;
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
                 },
+                child: const Text('Cancel'),
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (groupName.isNotEmpty && groupDescription.isNotEmpty) {
-                  _createGroup(groupName, groupDescription);
-                }
-                Navigator.of(context).pop();
-              },
-              child: const Text('Create'),
-            ),
-          ],
-        );
+              ElevatedButton(
+                onPressed: () {
+                  if (groupName.isNotEmpty && groupDescription.isNotEmpty) {
+                    _createGroup(groupName, groupDescription);
+                  }
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Create'),
+              ),
+            ]);
       },
     );
   }
@@ -225,7 +260,11 @@ class _GroupsPageState extends State<GroupsPage>
                               members: group['members'] ?? 0,
                               color: Colors.blueAccent,
                               showJoinButton: false,
-                              groupId: group['id'], // Pass groupId here
+                              showLeaveButton: true, // Show leave button
+                              onLeave: () {
+                                _leaveGroup(group['id']); // Call leave function
+                              },
+                              groupId: group['id'],
                             ))
                         .toList(),
                   ),
@@ -290,7 +329,9 @@ class GroupCard extends StatelessWidget {
   final int members;
   final Color color;
   final bool showJoinButton;
+  final bool showLeaveButton; // New flag to show the Leave button
   final VoidCallback? onJoin;
+  final VoidCallback? onLeave; // New callback for leave functionality
   final String groupId;
 
   const GroupCard({
@@ -300,7 +341,9 @@ class GroupCard extends StatelessWidget {
     required this.members,
     required this.color,
     this.showJoinButton = true,
+    this.showLeaveButton = false, // Default to false
     this.onJoin,
+    this.onLeave, // New callback
     required this.groupId,
   });
 
@@ -359,6 +402,14 @@ class GroupCard extends StatelessWidget {
                       ),
                       onPressed: onJoin,
                       child: const Text('Join Group'),
+                    ),
+                  if (showLeaveButton)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red, // Leave button color
+                      ),
+                      onPressed: onLeave,
+                      child: const Text('Leave Group'),
                     ),
                 ],
               ),

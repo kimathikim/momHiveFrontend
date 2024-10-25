@@ -27,45 +27,46 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
     super.initState();
     _fetchGroupMembers(); // Fetch group members when page loads
   }
-Future<void> _fetchGroupMembers() async {
-  String? token = await storage.read(key: 'auth_token');
-  if (token == null) return;
 
-  final response = await http.get(
-    Uri.parse(
-        'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/${widget.groupId}/mem'),
-            
-    headers: {
-      'Authorization': 'Bearer $token',
-    },
-  );
+  Future<void> _fetchGroupMembers() async {
+    String? token = await storage.read(key: 'auth_token');
+    if (token == null) return;
 
-  if (response.statusCode == 200) {
-    final decodedResponse = jsonDecode(response.body);
-    print(decodedResponse);
-    if (decodedResponse is List) {
-      setState(() {
-        members = decodedResponse;
-        isLoading = false;
-      });
-      print(members);
+    final response = await http.get(
+      Uri.parse(
+          'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/${widget.groupId}/mem'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final decodedResponse = jsonDecode(response.body);
+      print(decodedResponse);
+      if (decodedResponse is List) {
+        setState(() {
+          members = decodedResponse;
+          isLoading = false;
+        });
+        print(members);
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Unexpected response format')),
+        );
+      }
     } else {
       setState(() {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unexpected response format')),
+        SnackBar(content: Text('Failed to load group members')),
       );
     }
-  } else {
-    setState(() {
-      isLoading = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to load group members')),
-    );
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +90,7 @@ Future<void> _fetchGroupMembers() async {
                   itemBuilder: (context, index) {
                     final member = members[index];
                     return MemberCard(
-                      memberName: member['name'] ?? 'No name',
+                      memberName: member['first_name'] ?? 'No name',
                       email: member['email'] ?? 'No email',
                       isAdmin: member['is_admin'] ?? false,
                     );
@@ -134,4 +135,3 @@ class MemberCard extends StatelessWidget {
     );
   }
 }
-
