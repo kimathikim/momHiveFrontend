@@ -3,6 +3,7 @@ import 'message_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'groupD.dart';
 
 class GroupsPage extends StatefulWidget {
   final bool fromBottomNavBar;
@@ -95,7 +96,7 @@ class _GroupsPageState extends State<GroupsPage>
           'Authorization': 'Bearer $token',
         },
       );
-
+      print(response.body);
       final SnackBar snackBar;
       if (response.statusCode == 200) {
         _fetchGroups();
@@ -333,17 +334,34 @@ class GroupCard extends StatelessWidget {
               Text(description),
               const SizedBox(height: 8.0),
               Text('Members: $members'),
-              if (showJoinButton)
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: color,
                     ),
-                    onPressed: onJoin,
-                    child: const Text('Join Group'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupDetailsPage(
+                                groupId: groupId, groupName: title)),
+                      );
+                    },
+                    child: const Text('View Details'),
                   ),
-                ),
+                  if (showJoinButton)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color,
+                      ),
+                      onPressed: onJoin,
+                      child: const Text('Join Group'),
+                    ),
+                ],
+              ),
             ],
           ),
         ),

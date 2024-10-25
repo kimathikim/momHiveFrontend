@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'profile_page.dart';
-import 'home_page.dart';
+import 'theme_notifier.dart';
 
 class AccountSettingsPage extends StatelessWidget {
   final bool fromBottomNavBar;
@@ -8,6 +9,8 @@ class AccountSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -29,7 +32,7 @@ class AccountSettingsPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MyApp(),
+                    builder: (context) => const ProfilePage(),
                   ));
             },
           ),
@@ -50,28 +53,14 @@ class AccountSettingsPage extends StatelessWidget {
               // Update push notification preference
             },
           ),
-          SwitchSettingsCard(
-            icon: Icons.email,
-            title: 'Email Notifications',
-            value: false,
-            onChanged: (bool newValue) {
-              // Update email notification preference
-            },
-          ),
           const Divider(),
           const SectionTitle(title: 'App Theme'),
-          SettingsCard(
-            icon: Icons.light_mode,
-            title: 'Light Theme',
-            onTap: () {
-              // Apply light theme
-            },
-          ),
-          SettingsCard(
-            icon: Icons.dark_mode,
-            title: 'Dark Theme',
-            onTap: () {
-              // Apply dark theme
+          SwitchSettingsCard(
+            icon: themeNotifier.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+            title: themeNotifier.isDarkMode ? 'Dark Theme' : 'Light Theme',
+            value: themeNotifier.isDarkMode,
+            onChanged: (bool value) {
+              themeNotifier.toggleTheme(); // Toggle the theme
             },
           ),
         ],

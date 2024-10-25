@@ -346,6 +346,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
           'Edit Profile',
           style: TextStyle(color: Colors.white), // Ensure title text is white
         ),
+        leading: IconButton( // Back arrow button
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the parent page
+          },
+        ),
         iconTheme: const IconThemeData(color: Colors.white), // Ensure back button is white
       ),
       body: Padding(
@@ -422,7 +428,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: _saveProfile,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  backgroundColor: Colors.black,
+                  backgroundColor: const Color(0xFFF7C843), // Button color matching theme
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -439,3 +445,4 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
+
