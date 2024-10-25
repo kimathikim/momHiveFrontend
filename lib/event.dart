@@ -61,7 +61,13 @@ class _EventsPageState extends State<EventsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Events'),
+        title: const Text(
+          'Events',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         leading: widget.fromBottomNavBar
             ? null
             : IconButton(
@@ -74,6 +80,13 @@ class _EventsPageState extends State<EventsPage>
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          indicatorColor: Colors.white,
           tabs: const [
             Tab(text: 'Explore Events'), // Only one tab now
           ],
@@ -82,8 +95,15 @@ class _EventsPageState extends State<EventsPage>
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow[600],
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
               onPressed: () {
                 // Navigate to create event page
                 Navigator.push(
@@ -92,7 +112,10 @@ class _EventsPageState extends State<EventsPage>
                       builder: (context) => const CreateEventPage()),
                 );
               },
-              child: const Text('Create Event'),
+              child: const Text(
+                'Create Event',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           Expanded(
@@ -141,10 +164,32 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: ListTile(
-        title: Text(eventName, style: Theme.of(context).textTheme.titleLarge),
-        subtitle: Text('Date: $date\nLocation: $location'),
-        trailing: const Icon(Icons.arrow_forward_ios),
+        contentPadding: const EdgeInsets.all(16.0),
+        title: Text(
+          eventName,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'Date: $date\nLocation: $location',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
         onTap: () {
           // Navigate to event details page
           Navigator.push(

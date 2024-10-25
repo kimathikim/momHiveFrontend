@@ -136,14 +136,11 @@ class _GroupsPageState extends State<GroupsPage>
       final SnackBar snackBar;
       if (response.statusCode == 200) {
         _fetchGroups();
-        // display a success message
         snackBar = const SnackBar(
           content: Text('Group joined successfully\n Check My Groups tab'),
           backgroundColor: Colors.green,
         );
       } else {
-        print('Failed to join group: ${response.body}');
-        // display an error message
         snackBar = SnackBar(
           content: Text('Failed to join group: ${response.body}'),
           backgroundColor: Colors.red,
@@ -152,7 +149,6 @@ class _GroupsPageState extends State<GroupsPage>
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (error) {
       print('Error joining group: $error');
-      // display an error message
       final snackBar = SnackBar(
         content: Text('Error joining group: $error'),
         backgroundColor: Colors.red,
@@ -169,7 +165,10 @@ class _GroupsPageState extends State<GroupsPage>
         String groupDescription = '';
 
         return AlertDialog(
-            title: const Text('Create New Group'),
+            title: const Text(
+              'Create New Group',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -196,7 +195,10 @@ class _GroupsPageState extends State<GroupsPage>
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -205,7 +207,10 @@ class _GroupsPageState extends State<GroupsPage>
                   }
                   Navigator.of(context).pop();
                 },
-                child: const Text('Create'),
+                child: const Text(
+                  'Create',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
             ]);
       },
@@ -219,6 +224,11 @@ class _GroupsPageState extends State<GroupsPage>
       theme: ThemeData(
         primaryColor: const Color(0xFFF7C843),
         scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          headlineLarge: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+          bodyLarge: TextStyle(fontSize: 16, color: Colors.black54),
+        ),
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -243,6 +253,7 @@ class _GroupsPageState extends State<GroupsPage>
                     Navigator.pop(context);
                   },
                 ),
+          backgroundColor: const Color(0xFFF7C843),
         ),
         body: Column(
           children: [
@@ -251,39 +262,8 @@ class _GroupsPageState extends State<GroupsPage>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  ListView(
-                    padding: const EdgeInsets.all(16.0),
-                    children: myGroups
-                        .map((group) => GroupCard(
-                              title: group['name'],
-                              description: group['description'],
-                              members: group['members'] ?? 0,
-                              color: Colors.blueAccent,
-                              showJoinButton: false,
-                              showLeaveButton: true, // Show leave button
-                              onLeave: () {
-                                _leaveGroup(group['id']); // Call leave function
-                              },
-                              groupId: group['id'],
-                            ))
-                        .toList(),
-                  ),
-                  ListView(
-                    padding: const EdgeInsets.all(16.0),
-                    children: exploreGroups
-                        .map((group) => GroupCard(
-                              title: group['name'],
-                              description: group['description'],
-                              members: group['members'] ?? 0,
-                              color: Colors.green,
-                              showJoinButton: true,
-                              onJoin: () {
-                                _joinGroup(group['id']);
-                              },
-                              groupId: group['id'], // Pass groupId here
-                            ))
-                        .toList(),
-                  ),
+                  _buildGroupList(myGroups, false),
+                  _buildGroupList(exploreGroups, true),
                 ],
               ),
             ),
@@ -297,6 +277,27 @@ class _GroupsPageState extends State<GroupsPage>
           child: const Icon(Icons.add),
         ),
       ),
+    );
+  }
+
+  Widget _buildGroupList(List<dynamic> groups, bool isExplore) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemCount: groups.length,
+      itemBuilder: (context, index) {
+        final group = groups[index];
+        return GroupCard(
+          title: group['name'],
+          description: group['description'],
+          members: group['members'] ?? 0,
+          color: isExplore ? Colors.green : Colors.blueAccent,
+          showJoinButton: isExplore,
+          showLeaveButton: !isExplore,
+          onJoin: isExplore ? () => _joinGroup(group['id']) : null,
+          onLeave: !isExplore ? () => _leaveGroup(group['id']) : null,
+          groupId: group['id'],
+        );
+      },
     );
   }
 }
@@ -314,6 +315,10 @@ class TabBarWidget extends StatelessWidget {
         labelColor: const Color(0xFFF7C843),
         unselectedLabelColor: Colors.grey,
         indicatorColor: const Color(0xFFF7C843),
+        labelStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
         tabs: const [
           Tab(text: 'My Groups'),
           Tab(text: 'Explore'),
@@ -329,9 +334,9 @@ class GroupCard extends StatelessWidget {
   final int members;
   final Color color;
   final bool showJoinButton;
-  final bool showLeaveButton; // New flag to show the Leave button
+  final bool showLeaveButton;
   final VoidCallback? onJoin;
-  final VoidCallback? onLeave; // New callback for leave functionality
+  final VoidCallback? onLeave;
   final String groupId;
 
   const GroupCard({
@@ -341,82 +346,76 @@ class GroupCard extends StatelessWidget {
     required this.members,
     required this.color,
     this.showJoinButton = true,
-    this.showLeaveButton = false, // Default to false
+    this.showLeaveButton = false,
     this.onJoin,
-    this.onLeave, // New callback
+    this.onLeave,
     required this.groupId,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Navigate to MessageDetailPage when the card is tapped
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MessageDetailPage(
-              contactName: title,
-              userId: groupId,
-              isGroup: true,
-            ),
-          ),
-        );
-      },
-      child: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.headlineLarge),
-              const SizedBox(height: 8.0),
-              Text(description),
-              const SizedBox(height: 8.0),
-              Text('Members: $members'),
-              const SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.headlineLarge),
+            const SizedBox(height: 8.0),
+            Text(description, style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 8.0),
+            Text('Members: $members', style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 12.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              GroupDetailsPage(groupId: groupId, groupName: title)),
+                    );
+                  },
+                  child: const Text('View Details'),
+                ),
+                if (showJoinButton)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: color,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GroupDetailsPage(
-                                groupId: groupId, groupName: title)),
-                      );
-                    },
-                    child: const Text('View Details'),
+                    onPressed: onJoin,
+                    child: const Text('Join Group'),
                   ),
-                  if (showJoinButton)
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: color,
+                if (showLeaveButton)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                      onPressed: onJoin,
-                      child: const Text('Join Group'),
                     ),
-                  if (showLeaveButton)
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red, // Leave button color
-                      ),
-                      onPressed: onLeave,
-                      child: const Text('Leave Group'),
-                    ),
-                ],
-              ),
-            ],
-          ),
+                    onPressed: onLeave,
+                    child: const Text('Leave Group'),
+                  ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
