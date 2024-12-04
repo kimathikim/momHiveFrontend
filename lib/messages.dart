@@ -108,7 +108,7 @@ class MessageCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          MessageDetailPage(contactName: sender, userId: '1')),
+                          MessageDetailPage(contactName: sender, senderID: '1')),
                 );
               },
             )));

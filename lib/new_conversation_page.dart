@@ -26,7 +26,7 @@ class _NewConversationPageState extends State<NewConversationPage> {
     final token = await storage.read(key: 'auth_token');
     final response = await http.get(
       Uri.parse(
-          'https://momhive-992deeb4847a.herokuapp.com/api/v1/messages/users'),
+          'https://momhive-backend.onrender.com/api/v1/messages/users'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -59,7 +59,7 @@ class _NewConversationPageState extends State<NewConversationPage> {
       context,
       MaterialPageRoute(
         builder: (context) => MessageDetailPage(
-          userId: userId,
+          senderID: userId,
           contactName: userName,
         ),
       ),

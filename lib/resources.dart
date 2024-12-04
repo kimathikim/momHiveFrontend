@@ -114,7 +114,7 @@ class _CategoryTabsState extends State<CategoryTabs> {
     });
 
     final url =
-        'https://momhive-992deeb4847a.herokuapp.com/api/v1/articles/$topic';
+        'https://momhive-backend.onrender.com/api/v1/articles/$topic';
     try {
       final response = await http.get(
         Uri.parse(url),

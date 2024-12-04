@@ -40,7 +40,7 @@ class _EventsPageState extends State<EventsPage>
       isLoadingExplore = true;
     });
     final response = await http.get(
-        Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/events'),
+        Uri.parse('https://momhive-backend.onrender.com/api/v1/events'),
         headers: {
           "Authorization": "Bearer $token",
         });

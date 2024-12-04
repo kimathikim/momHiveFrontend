@@ -12,7 +12,7 @@ class MentoringPage extends StatelessWidget {
   Future<List<Map<String, dynamic>>> fetchMentors() async {
     final String? token = await storage.read(key: 'auth_token');
     final response = await http.get(
-      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/mentors'),
+      Uri.parse('https://momhive-backend.onrender.com/api/v1/mentors'),
       headers: {
         'Authorization': 'Bearer $token'
       }, // Add authentication if required
@@ -28,7 +28,7 @@ class MentoringPage extends StatelessWidget {
   Future<List<Map<String, dynamic>>> fetchMentees() async {
     final String? token = await storage.read(key: 'auth_token');
     final response = await http.get(
-      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/mentees'),
+      Uri.parse('https://momhive-backend.onrender.com/api/v1/mentees'),
       headers: {
         'Authorization': 'Bearer $token'
       }, // Add authentication if required
@@ -150,7 +150,7 @@ class MentoringPage extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => MessageDetailPage(
                                       contactName: mentor['name'],
-                                      userId: mentor['id'])),
+                                      senderID: mentor['id'])),
                             );
                           },
                         ),
@@ -234,7 +234,7 @@ class MentoringPage extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => MessageDetailPage(
                                       contactName: mentee['name'] ?? "kim",
-                                      userId: mentee['id'] ?? "kimathi")),
+                                      senderID: mentee['id'] ?? "kimathi")),
                             );
                           },
                         ),

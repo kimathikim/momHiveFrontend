@@ -30,7 +30,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     });
     final response = await http.get(
         Uri.parse(
-            'https://momhive-992deeb4847a.herokuapp.com/api/v1/events/${widget.eventId}'),
+            'https://momhive-backend.onrender.com/api/v1/events/${widget.eventId}'),
         headers: {
           "Authorization": "Bearer $token",
         });
@@ -51,7 +51,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     final token = await getToken();
     final response = await http.post(
         Uri.parse(
-            'https://momhive-992deeb4847a.herokuapp.com/api/v1/events/${widget.eventId}/attend'),
+            'https://momhive-backend.onrender.com/api/v1/events/${widget.eventId}/attend'),
         headers: {
           "Authorization": "Bearer $token",
         });

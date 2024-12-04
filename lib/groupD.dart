@@ -34,7 +34,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
 
     final response = await http.get(
       Uri.parse(
-          'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/${widget.groupId}/mem'),
+          'https://momhive-backend.onrender.com/api/v1/groups/${widget.groupId}/mem'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -92,6 +92,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
                     return MemberCard(
                       memberName: member['first_name'] ?? 'No name',
                       email: member['email'] ?? 'No email',
+                      bio: member['bio'] ?? 'No bio',
                       isAdmin: member['is_admin'] ?? false,
                     );
                   },
@@ -103,11 +104,13 @@ class _GroupDetailsPageState extends State<GroupDetailsPage> {
 class MemberCard extends StatelessWidget {
   final String memberName;
   final String email;
+  final String bio;
   final bool isAdmin;
 
   const MemberCard({
     super.key,
     required this.memberName,
+    required this.bio,
     required this.email,
     required this.isAdmin,
   });
@@ -123,7 +126,7 @@ class MemberCard extends StatelessWidget {
           child: const Icon(Icons.person, color: Colors.white),
         ),
         title: Text(memberName),
-        subtitle: Text(email),
+        subtitle: Text(bio),
         trailing: isAdmin
             ? const Chip(
                 label: Text('Admin'),

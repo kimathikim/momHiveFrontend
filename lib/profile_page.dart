@@ -44,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
     await storage.delete(key: 'auth_token');
     
     await http.post(
-      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/logout'),
+      Uri.parse('https://momhive-backend.onrender.com/api/v1/logout'),
     );
 
     if (!mounted) return;

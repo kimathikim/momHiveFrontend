@@ -32,7 +32,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
     final token = await const FlutterSecureStorage().read(key: 'auth_token');
 
     final response = await http.post(
-      Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/events'),
+      Uri.parse('https://momhive-backend.onrender.com/api/v1/events'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',

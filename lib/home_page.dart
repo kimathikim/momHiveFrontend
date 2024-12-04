@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
     // Fetch upcoming events
     final upcomingResponse = await http.get(
-        Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/events'),
+        Uri.parse('https://momhive-backend.onrender.com/api/v1/events'),
         headers: {
           "Authorization": "Bearer $token",
         });
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     // Fetch attending events
     final attendingResponse = await http.get(
         Uri.parse(
-            'https://momhive-992deeb4847a.herokuapp.com/api/v1/events/attending'),
+            'https://momhive-backend.onrender.com/api/v1/events/attending'),
         headers: {
           "Authorization": "Bearer $token",
         });

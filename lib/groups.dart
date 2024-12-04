@@ -33,12 +33,12 @@ class _GroupsPageState extends State<GroupsPage>
 
     try {
       final myGroupsResponse = await http.get(
-        Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/mygroups'),
+        Uri.parse('https://momhive-backend.onrender.com/api/v1/mygroups'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
       final exploreGroupsResponse = await http.get(
-        Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/groups'),
+        Uri.parse('https://momhive-backend.onrender.com/api/v1/groups'),
         headers: {'Authorization': 'Bearer $token'},
       );
 
@@ -64,7 +64,7 @@ class _GroupsPageState extends State<GroupsPage>
     try {
       final response = await http.post(
         Uri.parse(
-            'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/leave/$groupId'),
+            'https://momhive-backend.onrender.com/api/v1/groups/leave/$groupId'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -93,13 +93,27 @@ class _GroupsPageState extends State<GroupsPage>
     }
   }
 
+  void _navigateToChatRoom(
+      BuildContext context, String contactName, String senderID, bool isGroup) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MessageDetailPage(
+          contactName: contactName,
+          senderID: senderID,
+          isGroup: isGroup,
+        ),
+      ),
+    );
+  }
+
   Future<void> _createGroup(String name, String description) async {
     String? token = await _storage.read(key: 'auth_token');
     if (token == null) return;
 
     try {
       final response = await http.post(
-        Uri.parse('https://momhive-992deeb4847a.herokuapp.com/api/v1/create'),
+        Uri.parse('https://momhive-backend.onrender.com/api/v1/create'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -127,7 +141,7 @@ class _GroupsPageState extends State<GroupsPage>
     try {
       final response = await http.post(
         Uri.parse(
-            'https://momhive-992deeb4847a.herokuapp.com/api/v1/groups/join/$groupId'),
+            'https://momhive-backend.onrender.com/api/v1/groups/join/$groupId'),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -286,16 +300,21 @@ class _GroupsPageState extends State<GroupsPage>
       itemCount: groups.length,
       itemBuilder: (context, index) {
         final group = groups[index];
-        return GroupCard(
-          title: group['name'],
-          description: group['description'],
-          members: group['members'] ?? 0,
-          color: isExplore ? Colors.green : Colors.blueAccent,
-          showJoinButton: isExplore,
-          showLeaveButton: !isExplore,
-          onJoin: isExplore ? () => _joinGroup(group['id']) : null,
-          onLeave: !isExplore ? () => _leaveGroup(group['id']) : null,
-          groupId: group['id'],
+        return GestureDetector(
+          onTap: () {
+            _navigateToChatRoom(context, group['name'], group['id'], true);
+          },
+          child: GroupCard(
+            title: group['name'],
+            description: group['description'],
+            members: group['members'] ?? 0,
+            color: isExplore ? Colors.green : Colors.blueAccent,
+            showJoinButton: isExplore,
+            showLeaveButton: !isExplore,
+            onJoin: isExplore ? () => _joinGroup(group['id']) : null,
+            onLeave: !isExplore ? () => _leaveGroup(group['id']) : null,
+            groupId: group['id'],
+          ),
         );
       },
     );
@@ -366,7 +385,8 @@ class GroupCard extends StatelessWidget {
             const SizedBox(height: 8.0),
             Text(description, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 8.0),
-            Text('Members: $members', style: Theme.of(context).textTheme.bodyLarge),
+            Text('Members: $members',
+                style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 12.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -382,8 +402,8 @@ class GroupCard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              GroupDetailsPage(groupId: groupId, groupName: title)),
+                          builder: (context) => GroupDetailsPage(
+                              groupId: groupId, groupName: title)),
                     );
                   },
                   child: const Text('View Details'),
@@ -391,18 +411,20 @@ class GroupCard extends StatelessWidget {
                 if (showJoinButton)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: color,
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
                     onPressed: onJoin,
-                    child: const Text('Join Group'),
+                    child: const Text(
+                      'Join Group',
+                    ),
                   ),
                 if (showLeaveButton)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -418,4 +440,3 @@ class GroupCard extends StatelessWidget {
     );
   }
 }
-
