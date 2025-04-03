@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modify this file to customize your launch splash screen -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
+    <item android:drawable="@android:color/white" />
+
+    <!-- You can insert your own image assets here -->
+    <!-- <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/launch_image" />
+    </item> -->
+</layer-list>
+=======
+    
+    <!-- Set the yellow background color -->
+    <item android:drawable="@android:color/holo_orange_light" /> 
+
+    <!-- Insert your logo in the center -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/momhive_logo" /> <!-- Replace this with your logo path -->
+    </item>
+</layer-list>
+
+>>>>>>> 58e33d3 (Add eventlet)
